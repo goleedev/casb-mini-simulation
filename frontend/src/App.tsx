@@ -121,8 +121,6 @@ const MainLayout: React.FC = () => {
           <Route path="/files" element={<FilesPage />} />
           <Route path="/policies" element={<PoliciesPage />} />
           <Route path="/events" element={<EventsPage />} />
-          <Route path="/reports" element={<PlaceholderPage title="리포트" />} />
-          <Route path="/settings" element={<PlaceholderPage title="설정" />} />
           <Route path="*" element={<NotFoundPage />} />
         </Routes>
       </AppShell.Main>
