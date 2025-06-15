@@ -1,4 +1,4 @@
-// 사용자 타입
+// User types
 export interface User {
   id: string;
   email: string;
@@ -8,7 +8,7 @@ export interface User {
   createdAt: Date;
 }
 
-// 파일 메타데이터
+// File metadata
 export interface FileMetadata {
   id: string;
   originalName: string;
@@ -21,7 +21,7 @@ export interface FileMetadata {
   tags: string[];
 }
 
-// CASB 정책
+// CASB policy
 export interface CASBPolicy {
   id: string;
   name: string;
@@ -38,7 +38,7 @@ export interface PolicyRule {
   description: string;
 }
 
-// 보안 이벤트
+// Security event
 export interface SecurityEvent {
   id: string;
   timestamp: Date;
@@ -51,7 +51,7 @@ export interface SecurityEvent {
   resolved: boolean;
 }
 
-// 활동 로그
+// Activity log
 export interface ActivityLog {
   id: string;
   timestamp: Date;

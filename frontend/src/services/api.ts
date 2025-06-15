@@ -1,8 +1,7 @@
-/// <reference types="node" />
 import axios from 'axios';
 import { ApiResponse } from '../types/api.types';
 
-// API 기본 설정
+// Basic API configuration
 const API_BASE_URL = process.env.REACT_APP_API_URL || 'http://localhost:5000';
 
 const apiClient = axios.create({
@@ -13,7 +12,7 @@ const apiClient = axios.create({
   },
 });
 
-// 요청 인터셉터 (인증 토큰 추가)
+// Request interceptor (add authentication token)
 apiClient.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem('auth_token');
@@ -27,14 +26,14 @@ apiClient.interceptors.request.use(
   }
 );
 
-// 응답 인터셉터 (에러 처리)
+// Response interceptor (error handling)
 apiClient.interceptors.response.use(
   (response) => response,
   (error) => {
     console.error('API Error:', error);
 
     if (error.response?.status === 401) {
-      // 인증 만료 시 로그아웃 처리
+      // Handle authentication expiration
       localStorage.removeItem('auth_token');
       window.location.href = '/login';
     }
@@ -43,13 +42,13 @@ apiClient.interceptors.response.use(
   }
 );
 
-// API 함수들
+// API functions
 export const api = {
-  // 헬스 체크
+  // Health check
   health: (): Promise<ApiResponse<any>> =>
     apiClient.get('/health').then((res) => res.data),
 
-  // 파일 관련
+  // File related
   uploadFile: (formData: FormData): Promise<ApiResponse<any>> =>
     apiClient
       .post('/files/upload', formData, {
@@ -60,15 +59,15 @@ export const api = {
   getFiles: (): Promise<ApiResponse<any>> =>
     apiClient.get('/files').then((res) => res.data),
 
-  // 보안 정책 관련
+  // Security policy related
   getPolicies: (): Promise<ApiResponse<any>> =>
     apiClient.get('/policies').then((res) => res.data),
 
-  // 보안 이벤트 관련
+  // Security event related
   getSecurityEvents: (): Promise<ApiResponse<any>> =>
     apiClient.get('/events').then((res) => res.data),
 
-  // 대시보드 통계
+  // Dashboard statistics
   getDashboardStats: (): Promise<ApiResponse<any>> =>
     apiClient.get('/dashboard/stats').then((res) => res.data),
 };

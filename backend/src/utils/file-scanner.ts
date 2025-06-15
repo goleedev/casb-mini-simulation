@@ -25,7 +25,7 @@ export interface FileScanReport {
 
 export class FileSecurityScanner {
   /**
-   * 파일 전체 보안 스캔 실행
+   * Execute comprehensive file security scan
    */
   static async scanFile(
     fileName: string,
@@ -37,27 +37,27 @@ export class FileSecurityScanner {
 
     console.log(`🔍 Starting security scan for: ${fileName}`);
 
-    // 1. 파일 확장자 검사
+    // 1. File extension check
     const extensionResult = this.scanFileExtension(fileName);
     if (extensionResult) scanResults.push(extensionResult);
 
-    // 2. 파일 크기 검사
+    // 2. File size check
     const sizeResult = this.scanFileSize(fileName, fileBuffer.length);
     if (sizeResult) scanResults.push(sizeResult);
 
-    // 3. MIME 타입 검사
+    // 3. MIME type check
     const mimeResult = this.scanMimeType(fileName, mimeType);
     if (mimeResult) scanResults.push(mimeResult);
 
-    // 4. 악성코드 시뮬레이션 (실제 환경에서는 실제 스캔)
+    // 4. Malware simulation (actual environment would use real scanning)
     const malwareResult = await this.simulateMalwareScan(fileName, fileBuffer);
     if (malwareResult) scanResults.push(malwareResult);
 
-    // 5. DLP 스캔 (민감 데이터 탐지)
+    // 5. DLP scan (sensitive data detection)
     const dlpResult = await this.scanSensitiveData(fileName, fileBuffer);
     if (dlpResult) scanResults.push(dlpResult);
 
-    // 6. 전체 위험도 계산
+    // 6. Calculate overall risk
     const { overallRisk, riskScore } = this.calculateRiskScore(scanResults);
 
     const scanDuration = Date.now() - startTime;
@@ -78,7 +78,7 @@ export class FileSecurityScanner {
   }
 
   /**
-   * 파일 확장자 검사
+   * File extension validation
    */
   private static scanFileExtension(fileName: string): ScanResult | null {
     const ext = path.extname(fileName).toLowerCase();
@@ -87,7 +87,7 @@ export class FileSecurityScanner {
       return {
         type: 'fileType',
         severity: 'critical',
-        message: `위험한 파일 확장자 탐지: ${ext}`,
+        message: `Dangerous file extension detected: ${ext}`,
         details: { extension: ext, category: 'executable' },
         action: 'block',
       };
@@ -97,7 +97,7 @@ export class FileSecurityScanner {
       return {
         type: 'fileType',
         severity: 'medium',
-        message: `허용되지 않은 파일 확장자: ${ext}`,
+        message: `Unauthorized file extension: ${ext}`,
         details: { extension: ext, category: 'unknown' },
         action: 'warn',
       };
@@ -107,7 +107,7 @@ export class FileSecurityScanner {
   }
 
   /**
-   * 파일 크기 검사
+   * File size validation
    */
   private static scanFileSize(
     fileName: string,
@@ -120,7 +120,9 @@ export class FileSecurityScanner {
       return {
         type: 'policy',
         severity: 'high',
-        message: `파일 크기 제한 초과: ${(size / 1024 / 1024).toFixed(2)}MB`,
+        message: `File size limit exceeded: ${(size / 1024 / 1024).toFixed(
+          2
+        )}MB`,
         details: { size, maxSize, category: 'size_limit' },
         action: 'block',
       };
@@ -130,7 +132,9 @@ export class FileSecurityScanner {
       return {
         type: 'policy',
         severity: 'medium',
-        message: `큰 파일 크기 경고: ${(size / 1024 / 1024).toFixed(2)}MB`,
+        message: `Large file size warning: ${(size / 1024 / 1024).toFixed(
+          2
+        )}MB`,
         details: { size, warningSize, category: 'size_warning' },
         action: 'warn',
       };
@@ -140,7 +144,7 @@ export class FileSecurityScanner {
   }
 
   /**
-   * MIME 타입 검사
+   * MIME type validation
    */
   private static scanMimeType(
     fileName: string,
@@ -157,7 +161,7 @@ export class FileSecurityScanner {
       return {
         type: 'fileType',
         severity: 'high',
-        message: `위험한 MIME 타입 탐지: ${mimeType}`,
+        message: `Dangerous MIME type detected: ${mimeType}`,
         details: { mimeType, category: 'dangerous_mime' },
         action: 'block',
       };
@@ -167,15 +171,15 @@ export class FileSecurityScanner {
   }
 
   /**
-   * 악성코드 스캔 시뮬레이션
+   * Malware scan simulation
    */
   private static async simulateMalwareScan(
     fileName: string,
     fileBuffer: Buffer
   ): Promise<ScanResult | null> {
-    // 실제 환경에서는 ClamAV, VirusTotal API 등을 사용
+    // In production environment, use ClamAV, VirusTotal API, etc.
 
-    // 시뮬레이션: 특정 패턴이나 파일명으로 악성코드 판단
+    // Simulation: Determine malware based on specific patterns or file names
     const suspiciousPatterns = [
       'virus',
       'malware',
@@ -203,7 +207,7 @@ export class FileSecurityScanner {
         return {
           type: 'malware',
           severity: 'critical',
-          message: `악성코드 패턴 탐지: ${pattern}`,
+          message: `Malware pattern detected: ${pattern}`,
           details: {
             pattern,
             detection_method: 'signature',
@@ -214,12 +218,12 @@ export class FileSecurityScanner {
       }
     }
 
-    // 랜덤하게 5% 확률로 의심스러운 파일 판정 (시뮬레이션)
+    // Random 5% chance for suspicious file detection (simulation)
     if (Math.random() < 0.05) {
       return {
         type: 'malware',
         severity: 'medium',
-        message: '의심스러운 파일 패턴 탐지',
+        message: 'Suspicious file pattern detected',
         details: {
           confidence: 0.7,
           detection_method: 'heuristic',
@@ -233,33 +237,35 @@ export class FileSecurityScanner {
   }
 
   /**
-   * 민감 데이터 스캔 (DLP)
+   * Sensitive data scan (DLP)
    */
   private static async scanSensitiveData(
     fileName: string,
     fileBuffer: Buffer
   ): Promise<ScanResult | null> {
     try {
-      // 텍스트 기반 파일만 스캔 (PDF, DOC 등은 실제로는 별도 파싱 필요)
+      // Scan only text-based files (PDF, DOC would need separate parsing in production)
       const content = fileBuffer.toString('utf8');
       const findings: string[] = [];
 
-      // 신용카드 번호 탐지
+      // Credit card number detection
       const creditCardMatches = content.match(SENSITIVE_PATTERNS.creditCard);
       if (creditCardMatches) {
-        findings.push(`신용카드 번호 ${creditCardMatches.length}개 탐지`);
+        findings.push(
+          `${creditCardMatches.length} credit card number(s) detected`
+        );
       }
 
-      // 주민등록번호 탐지
+      // Social Security Number detection
       const ssnMatches = content.match(SENSITIVE_PATTERNS.ssn);
       if (ssnMatches) {
-        findings.push(`주민등록번호 ${ssnMatches.length}개 탐지`);
+        findings.push(`${ssnMatches.length} SSN(s) detected`);
       }
 
-      // 이메일 주소 탐지 (많은 경우 민감하지 않지만 예시용)
+      // Email address detection (often not sensitive but for demonstration)
       const emailMatches = content.match(SENSITIVE_PATTERNS.email);
       if (emailMatches && emailMatches.length > 10) {
-        findings.push(`대량 이메일 주소 ${emailMatches.length}개 탐지`);
+        findings.push(`${emailMatches.length} bulk email addresses detected`);
       }
 
       if (findings.length > 0) {
@@ -268,13 +274,13 @@ export class FileSecurityScanner {
         return {
           type: 'dlp',
           severity,
-          message: `민감 데이터 탐지: ${findings.join(', ')}`,
+          message: `Sensitive data detected: ${findings.join(', ')}`,
           details: { findings, patterns_matched: findings.length },
           action: severity === 'critical' ? 'block' : 'warn',
         };
       }
     } catch (error) {
-      // 바이너리 파일 등 텍스트 변환 실패 시 무시
+      // Ignore text conversion failures for binary files
       console.log(`ℹ️ Could not scan file content for DLP: ${fileName}`);
     }
 
@@ -282,7 +288,7 @@ export class FileSecurityScanner {
   }
 
   /**
-   * 전체 위험도 점수 계산
+   * Calculate overall risk score
    */
   private static calculateRiskScore(scanResults: ScanResult[]): {
     overallRisk: 'safe' | 'warning' | 'blocked' | 'quarantined';
@@ -297,7 +303,7 @@ export class FileSecurityScanner {
     let hasQuarantine = false;
 
     for (const result of scanResults) {
-      // 심각도에 따른 점수 부여
+      // Assign scores based on severity
       switch (result.severity) {
         case 'critical':
           totalScore += 40;
@@ -313,15 +319,15 @@ export class FileSecurityScanner {
           break;
       }
 
-      // 액션에 따른 최종 판정
+      // Final decision based on action
       if (result.action === 'quarantine') hasQuarantine = true;
       if (result.action === 'block') hasBlock = true;
     }
 
-    // 최대 100점으로 제한
+    // Cap at 100 points
     const riskScore = Math.min(totalScore, 100);
 
-    // 최종 위험도 판정
+    // Final risk determination
     let overallRisk: 'safe' | 'warning' | 'blocked' | 'quarantined';
 
     if (hasQuarantine) {

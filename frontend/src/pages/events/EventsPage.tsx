@@ -1,33 +1,32 @@
-import React, { useState, useEffect } from 'react';
 import {
-  Container,
-  Paper,
-  Title,
-  Text,
-  Group,
-  Stack,
+  ActionIcon,
   Badge,
   Button,
-  Table,
-  ActionIcon,
-  Tooltip,
-  TextInput,
-  Select,
-  Pagination,
   Card,
+  Container,
+  Group,
+  Pagination,
+  Paper,
+  Select,
   SimpleGrid,
+  Stack,
+  Table,
+  Text,
+  TextInput,
+  Title,
+  Tooltip,
 } from '@mantine/core';
 import {
-  IconSearch,
-  IconFilter,
-  IconRefresh,
-  IconEye,
-  IconDownload,
-  IconTrash,
   IconAlertTriangle,
+  IconDownload,
+  IconEye,
+  IconRefresh,
+  IconSearch,
   IconShieldCheck,
   IconShieldX,
+  IconTrash,
 } from '@tabler/icons-react';
+import React, { useEffect, useState } from 'react';
 
 interface SecurityEvent {
   id: string;
@@ -53,7 +52,6 @@ export const EventsPage: React.FC = () => {
   const [severityFilter, setSeverityFilter] = useState<string>('');
   const [typeFilter, setTypeFilter] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
-  const [loading, setLoading] = useState(false);
 
   const eventsPerPage = 10;
 
@@ -93,14 +91,14 @@ export const EventsPage: React.FC = () => {
         id: `event-${i + 1}`,
         timestamp: new Date(
           Date.now() - Math.random() * 7 * 24 * 60 * 60 * 1000
-        ), // 지난 7일 내
+        ),
         type,
         severity,
         user,
         description: getEventDescription(type, severity),
         source:
           type === 'file_upload' ? 'File Upload System' : 'CASB Policy Engine',
-        resolved: Math.random() > 0.3, // 70% 해결됨
+        resolved: Math.random() > 0.3,
         details: {
           fileName: type.includes('file') ? `document_${i}.pdf` : undefined,
           policyId:
@@ -123,38 +121,38 @@ export const EventsPage: React.FC = () => {
   const getEventDescription = (type: string, severity: string) => {
     const descriptions = {
       file_upload: {
-        low: '안전한 파일 업로드 완료',
-        medium: '대용량 파일 업로드 감지',
-        high: '의심스러운 파일 형식 업로드',
-        critical: '악성코드 포함 파일 업로드 시도',
+        low: 'Safe file upload completed',
+        medium: 'Large file upload detected',
+        high: 'Suspicious file type uploaded',
+        critical: 'Malware-infected file upload attempt',
       },
       policy_violation: {
-        low: '정책 위반 경고 발생',
-        medium: '파일 크기 제한 위반',
-        high: '민감 정보 포함 파일 탐지',
-        critical: '중요 보안 정책 위반',
+        low: 'Policy violation warning generated',
+        medium: 'File size limit violation',
+        high: 'Sensitive information detected in file',
+        critical: 'Critical security policy violation',
       },
       threat_detected: {
-        low: '의심스러운 활동 탐지',
-        medium: '알려진 위협 패턴 일치',
-        high: '악성 행위 탐지',
-        critical: '심각한 보안 위협 탐지',
+        low: 'Suspicious activity detected',
+        medium: 'Known threat pattern matched',
+        high: 'Malicious behavior detected',
+        critical: 'Critical security threat detected',
       },
       access_denied: {
-        low: '일반 접근 거부',
-        medium: '권한 없는 접근 시도',
-        high: '비정상적인 접근 패턴',
-        critical: '무단 접근 시도 차단',
+        low: 'General access denied',
+        medium: 'Unauthorized access attempt',
+        high: 'Abnormal access pattern',
+        critical: 'Unauthorized access attempt blocked',
       },
       file_blocked: {
-        low: '파일 업로드 제한',
-        medium: '허용되지 않은 파일 형식',
-        high: '위험한 파일 확장자 차단',
-        critical: '악성 파일 업로드 차단',
+        low: 'File upload restricted',
+        medium: 'Unauthorized file type',
+        high: 'Dangerous file extension blocked',
+        critical: 'Malicious file upload blocked',
       },
     };
 
-    return descriptions[type]?.[severity] || '보안 이벤트 발생';
+    return descriptions[type]?.[severity] || 'Security event occurred';
   };
 
   const filterEvents = () => {
@@ -209,15 +207,15 @@ export const EventsPage: React.FC = () => {
   const getTypeLabel = (type: string) => {
     switch (type) {
       case 'file_upload':
-        return '파일 업로드';
+        return 'File Upload';
       case 'policy_violation':
-        return '정책 위반';
+        return 'Policy Violation';
       case 'threat_detected':
-        return '위협 탐지';
+        return 'Threat Detected';
       case 'access_denied':
-        return '접근 거부';
+        return 'Access Denied';
       case 'file_blocked':
-        return '파일 차단';
+        return 'File Blocked';
       default:
         return type;
     }
@@ -233,110 +231,105 @@ export const EventsPage: React.FC = () => {
   return (
     <Container size="xl" py="md">
       <Stack gap="lg">
-        {/* 헤더 */}
         <Group justify="space-between">
           <div>
-            <Title order={2}>🚨 보안 이벤트</Title>
+            <Title order={2}>🚨 Security Events</Title>
             <Text c="dimmed" mt="xs">
-              실시간 보안 이벤트 모니터링 및 관리
+              Real-time security event monitoring and management
             </Text>
           </div>
           <Button
             leftSection={<IconRefresh size={16} />}
             onClick={generateMockEvents}
-            loading={loading}
           >
-            새로고침
+            Refresh
           </Button>
         </Group>
 
-        {/* 이벤트 통계 */}
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
           <Card withBorder p="md">
             <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-              총 이벤트
+              Total events
             </Text>
             <Text fw={700} size="xl">
               {events.length}
             </Text>
             <Text size="xs" c="dimmed" mt="xs">
-              지난 7일
+              Last 7 days
             </Text>
           </Card>
 
           <Card withBorder p="md">
             <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-              심각한 위협
+              Critical Threats
             </Text>
             <Text fw={700} size="xl" c="red">
               {events.filter((e) => e.severity === 'critical').length}
             </Text>
             <Text size="xs" c="dimmed" mt="xs">
-              즉시 조치 필요
+              Immediate action required
             </Text>
           </Card>
 
           <Card withBorder p="md">
             <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-              해결된 이벤트
+              Resolved Events
             </Text>
             <Text fw={700} size="xl" c="green">
               {events.filter((e) => e.resolved).length}
             </Text>
             <Text size="xs" c="dimmed" mt="xs">
-              전체 대비{' '}
-              {Math.round(
+              {`Percentage: ${Math.round(
                 (events.filter((e) => e.resolved).length / events.length) * 100
-              )}
-              %
+              )}%`}
             </Text>
           </Card>
 
           <Card withBorder p="md">
             <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-              미해결 이벤트
+              Unresolved Events
             </Text>
             <Text fw={700} size="xl" c="orange">
               {events.filter((e) => !e.resolved).length}
             </Text>
             <Text size="xs" c="dimmed" mt="xs">
-              조치 대기 중
+              Awaiting action
             </Text>
           </Card>
         </SimpleGrid>
 
-        {/* 필터링 */}
+        {/* Filtering */}
         <Paper shadow="sm" p="md" radius="md">
           <Group>
             <TextInput
-              placeholder="이벤트 검색..."
+              placeholder="Search events..."
               leftSection={<IconSearch size={16} />}
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               style={{ flex: 1 }}
             />
             <Select
-              placeholder="심각도"
+              placeholder="Severity"
               data={[
-                { value: '', label: '모든 심각도' },
-                { value: 'critical', label: '심각' },
-                { value: 'high', label: '높음' },
-                { value: 'medium', label: '중간' },
-                { value: 'low', label: '낮음' },
+                { value: '', label: 'All Severities' },
+                { value: 'critical', label: 'Critical' },
+                { value: 'high', label: 'High' },
+                { value: 'medium', label: 'Medium' },
+                { value: 'low', label: 'Low' },
               ]}
               value={severityFilter}
               onChange={(value) => setSeverityFilter(value || '')}
               w={150}
             />
             <Select
-              placeholder="이벤트 유형"
+              placeholder="Event Type"
               data={[
-                { value: '', label: '모든 유형' },
-                { value: 'threat_detected', label: '위협 탐지' },
-                { value: 'policy_violation', label: '정책 위반' },
-                { value: 'file_upload', label: '파일 업로드' },
-                { value: 'access_denied', label: '접근 거부' },
-                { value: 'file_blocked', label: '파일 차단' },
+                { value: '', label: 'All Types' },
+                { value: 'threat_detected', label: 'Threat Detected' },
+                { value: 'policy_violation', label: 'Policy Violation' },
+                { value: 'file_upload', label: 'File Upload' },
+                { value: 'access_denied', label: 'Access Denied' },
+                { value: 'file_blocked', label: 'File Blocked' },
               ]}
               value={typeFilter}
               onChange={(value) => setTypeFilter(value || '')}
@@ -345,19 +338,19 @@ export const EventsPage: React.FC = () => {
           </Group>
         </Paper>
 
-        {/* 이벤트 테이블 */}
+        {/* Events Table */}
         <Paper shadow="sm" radius="md">
           <Table.ScrollContainer minWidth={1000}>
             <Table striped highlightOnHover>
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>시간</Table.Th>
-                  <Table.Th>유형</Table.Th>
-                  <Table.Th>심각도</Table.Th>
-                  <Table.Th>설명</Table.Th>
-                  <Table.Th>사용자</Table.Th>
-                  <Table.Th>상태</Table.Th>
-                  <Table.Th>작업</Table.Th>
+                  <Table.Th>Time</Table.Th>
+                  <Table.Th>Type</Table.Th>
+                  <Table.Th>Severity</Table.Th>
+                  <Table.Th>Description</Table.Th>
+                  <Table.Th>User</Table.Th>
+                  <Table.Th>Status</Table.Th>
+                  <Table.Th>Actions</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
@@ -365,7 +358,7 @@ export const EventsPage: React.FC = () => {
                   <Table.Tr key={event.id}>
                     <Table.Td>
                       <Text size="sm">
-                        {event.timestamp.toLocaleString('ko-KR')}
+                        {event.timestamp.toLocaleString('en-US')}
                       </Text>
                     </Table.Td>
                     <Table.Td>
@@ -394,22 +387,22 @@ export const EventsPage: React.FC = () => {
                         color={event.resolved ? 'green' : 'orange'}
                         variant="light"
                       >
-                        {event.resolved ? '해결됨' : '대기중'}
+                        {event.resolved ? 'Resolved' : 'Pending'}
                       </Badge>
                     </Table.Td>
                     <Table.Td>
                       <Group gap="xs">
-                        <Tooltip label="상세 보기">
+                        <Tooltip label="View Details">
                           <ActionIcon variant="subtle" size="sm">
                             <IconEye size={16} />
                           </ActionIcon>
                         </Tooltip>
-                        <Tooltip label="다운로드">
+                        <Tooltip label="Download">
                           <ActionIcon variant="subtle" size="sm">
                             <IconDownload size={16} />
                           </ActionIcon>
                         </Tooltip>
-                        <Tooltip label="삭제">
+                        <Tooltip label="Delete">
                           <ActionIcon variant="subtle" color="red" size="sm">
                             <IconTrash size={16} />
                           </ActionIcon>
@@ -422,7 +415,7 @@ export const EventsPage: React.FC = () => {
             </Table>
           </Table.ScrollContainer>
 
-          {/* 페이지네이션 */}
+          {/* Pagination */}
           <Group justify="center" p="md">
             <Pagination
               value={currentPage}

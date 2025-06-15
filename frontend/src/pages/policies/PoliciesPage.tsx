@@ -43,50 +43,51 @@ export const PoliciesPage: React.FC = () => {
   const [policies, setPolicies] = useState<SecurityPolicy[]>([
     {
       id: '1',
-      name: '민감 데이터 유출 방지',
+      name: 'Sensitive Data Loss Prevention',
       type: 'dlp',
       enabled: true,
-      description: '신용카드 번호, 주민등록번호 등 민감 정보 탐지 및 차단',
+      description:
+        'Detect and block credit card numbers, SSNs, and other sensitive information',
       severity: 'critical',
       rules: 8,
       lastModified: new Date('2024-06-10'),
     },
     {
       id: '2',
-      name: '파일 형식 제어',
+      name: 'File Type Control',
       type: 'access',
       enabled: true,
-      description: '실행 파일 및 위험한 파일 형식 업로드 차단',
+      description: 'Block executable files and dangerous file type uploads',
       severity: 'high',
       rules: 12,
       lastModified: new Date('2024-06-12'),
     },
     {
       id: '3',
-      name: '악성코드 보호',
+      name: 'Malware Protection',
       type: 'threat',
       enabled: true,
-      description: '알려진 악성코드 패턴 및 의심스러운 행위 탐지',
+      description: 'Detect known malware patterns and suspicious behavior',
       severity: 'critical',
       rules: 25,
       lastModified: new Date('2024-06-14'),
     },
     {
       id: '4',
-      name: '파일 크기 제한',
+      name: 'File Size Limit',
       type: 'access',
       enabled: false,
-      description: '대용량 파일 업로드 제한 (100MB 초과)',
+      description: 'Limit large file uploads (over 100MB)',
       severity: 'medium',
       rules: 3,
       lastModified: new Date('2024-06-08'),
     },
     {
       id: '5',
-      name: '규정 준수 검사',
+      name: 'Compliance Check',
       type: 'compliance',
       enabled: true,
-      description: 'GDPR, 개인정보보호법 등 규정 준수 검사',
+      description: 'GDPR, HIPAA, and data protection regulation compliance',
       severity: 'high',
       rules: 15,
       lastModified: new Date('2024-06-13'),
@@ -118,11 +119,11 @@ export const PoliciesPage: React.FC = () => {
       case 'dlp':
         return 'DLP';
       case 'access':
-        return '접근 제어';
+        return 'Access Control';
       case 'threat':
-        return '위협 탐지';
+        return 'Threat Detection';
       case 'compliance':
-        return '규정 준수';
+        return 'Compliance';
       default:
         return type;
     }
@@ -158,29 +159,29 @@ export const PoliciesPage: React.FC = () => {
   return (
     <Container size="xl" py="md">
       <Stack gap="lg">
-        {/* 헤더 */}
+        {/* Header */}
         <Group justify="space-between">
           <div>
-            <Title order={2}>🔒 보안 정책 관리</Title>
+            <Title order={2}>🔒 Security Policy Management</Title>
             <Text c="dimmed" mt="xs">
-              CASB 보안 정책을 설정하고 관리합니다
+              Configure and manage CASB security policies
             </Text>
           </div>
           <Button
             leftSection={<IconPlus size={16} />}
             onClick={() => setCreateModalOpen(true)}
           >
-            새 정책 추가
+            Add New Policy
           </Button>
         </Group>
 
-        {/* 정책 통계 */}
+        {/* Policy Statistics */}
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
           <Card withBorder p="md">
             <Group justify="space-between">
               <div>
                 <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-                  전체 정책
+                  Total Policies
                 </Text>
                 <Text fw={700} size="xl">
                   {policies.length}
@@ -194,7 +195,7 @@ export const PoliciesPage: React.FC = () => {
             <Group justify="space-between">
               <div>
                 <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-                  활성 정책
+                  Active Policies
                 </Text>
                 <Text fw={700} size="xl">
                   {policies.filter((p) => p.enabled).length}
@@ -211,7 +212,7 @@ export const PoliciesPage: React.FC = () => {
             <Group justify="space-between">
               <div>
                 <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-                  중요 정책
+                  Critical Policies
                 </Text>
                 <Text fw={700} size="xl">
                   {policies.filter((p) => p.severity === 'critical').length}
@@ -225,7 +226,7 @@ export const PoliciesPage: React.FC = () => {
             <Group justify="space-between">
               <div>
                 <Text size="xs" c="dimmed" tt="uppercase" fw={700}>
-                  총 규칙
+                  Total Rules
                 </Text>
                 <Text fw={700} size="xl">
                   {policies.reduce((sum, p) => sum + p.rules, 0)}
@@ -236,10 +237,10 @@ export const PoliciesPage: React.FC = () => {
           </Card>
         </SimpleGrid>
 
-        {/* 정책 목록 */}
+        {/* Policy List */}
         <Paper shadow="sm" p="lg" radius="md">
           <Title order={3} mb="md">
-            정책 목록
+            Policy List
           </Title>
 
           <Stack gap="md">
@@ -263,7 +264,7 @@ export const PoliciesPage: React.FC = () => {
                   </Group>
 
                   <Group gap="xs">
-                    <Tooltip label="편집">
+                    <Tooltip label="Edit">
                       <ActionIcon
                         variant="light"
                         color="blue"
@@ -272,7 +273,7 @@ export const PoliciesPage: React.FC = () => {
                         <IconEdit size={16} />
                       </ActionIcon>
                     </Tooltip>
-                    <Tooltip label="삭제">
+                    <Tooltip label="Delete">
                       <ActionIcon
                         variant="light"
                         color="red"
@@ -296,12 +297,12 @@ export const PoliciesPage: React.FC = () => {
                       {policy.severity.toUpperCase()}
                     </Badge>
                     <Badge color="gray" variant="outline">
-                      {policy.rules}개 규칙
+                      {policy.rules} rules
                     </Badge>
                   </Group>
 
                   <Text size="xs" c="dimmed">
-                    수정: {policy.lastModified.toLocaleDateString('ko-KR')}
+                    Modified: {policy.lastModified.toLocaleDateString('en-US')}
                   </Text>
                 </Group>
               </Card>
@@ -310,53 +311,53 @@ export const PoliciesPage: React.FC = () => {
         </Paper>
       </Stack>
 
-      {/* 정책 생성/편집 모달 */}
+      {/* Policy Create/Edit Modal */}
       <Modal
         opened={createModalOpen || !!editingPolicy}
         onClose={() => {
           setCreateModalOpen(false);
           setEditingPolicy(null);
         }}
-        title={editingPolicy ? '정책 편집' : '새 정책 추가'}
+        title={editingPolicy ? 'Edit Policy' : 'Add New Policy'}
         size="md"
       >
         <Stack gap="md">
           <TextInput
-            label="정책 이름"
-            placeholder="정책 이름을 입력하세요"
+            label="Policy Name"
+            placeholder="Enter policy name"
             defaultValue={editingPolicy?.name || ''}
             required
           />
 
           <Select
-            label="정책 유형"
-            placeholder="정책 유형을 선택하세요"
+            label="Policy Type"
+            placeholder="Select policy type"
             data={[
-              { value: 'dlp', label: 'DLP (데이터 유출 방지)' },
-              { value: 'access', label: '접근 제어' },
-              { value: 'threat', label: '위협 탐지' },
-              { value: 'compliance', label: '규정 준수' },
+              { value: 'dlp', label: 'DLP (Data Loss Prevention)' },
+              { value: 'access', label: 'Access Control' },
+              { value: 'threat', label: 'Threat Detection' },
+              { value: 'compliance', label: 'Compliance' },
             ]}
             defaultValue={editingPolicy?.type || ''}
             required
           />
 
           <Select
-            label="심각도"
-            placeholder="심각도를 선택하세요"
+            label="Severity"
+            placeholder="Select severity level"
             data={[
-              { value: 'low', label: '낮음' },
-              { value: 'medium', label: '중간' },
-              { value: 'high', label: '높음' },
-              { value: 'critical', label: '심각' },
+              { value: 'low', label: 'Low' },
+              { value: 'medium', label: 'Medium' },
+              { value: 'high', label: 'High' },
+              { value: 'critical', label: 'Critical' },
             ]}
             defaultValue={editingPolicy?.severity || ''}
             required
           />
 
           <Textarea
-            label="설명"
-            placeholder="정책에 대한 설명을 입력하세요"
+            label="Description"
+            placeholder="Enter policy description"
             defaultValue={editingPolicy?.description || ''}
             rows={3}
             required
@@ -370,9 +371,9 @@ export const PoliciesPage: React.FC = () => {
                 setEditingPolicy(null);
               }}
             >
-              취소
+              Cancel
             </Button>
-            <Button>{editingPolicy ? '수정' : '생성'}</Button>
+            <Button>{editingPolicy ? 'Update' : 'Create'}</Button>
           </Group>
         </Stack>
       </Modal>

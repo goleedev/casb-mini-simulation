@@ -10,10 +10,10 @@ export const FilesPage: React.FC = () => {
       <Tabs defaultValue="upload" variant="outline">
         <Tabs.List>
           <Tabs.Tab value="upload" leftSection={<IconUpload size={16} />}>
-            파일 업로드
+            File Upload
           </Tabs.Tab>
           <Tabs.Tab value="manage" leftSection={<IconFolder size={16} />}>
-            파일 관리
+            File Management
           </Tabs.Tab>
         </Tabs.List>
 

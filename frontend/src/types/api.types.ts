@@ -1,4 +1,4 @@
-// API 응답 기본 타입
+// Basic API response type
 export interface ApiResponse<T> {
   success: boolean;
   data: T;
@@ -6,7 +6,7 @@ export interface ApiResponse<T> {
   error?: string;
 }
 
-// 사용자 타입
+// User type
 export interface User {
   id: string;
   email: string;
@@ -17,7 +17,7 @@ export interface User {
   lastLogin?: Date;
 }
 
-// 파일 관련 타입
+// File related types
 export interface FileItem {
   id: string;
   name: string;
@@ -38,7 +38,7 @@ export interface ScanResult {
   details?: any;
 }
 
-// 보안 이벤트 타입
+// Security event type
 export interface SecurityEvent {
   id: string;
   timestamp: Date;
@@ -54,7 +54,7 @@ export interface SecurityEvent {
   details: any;
 }
 
-// 정책 타입
+// Policy type
 export interface SecurityPolicy {
   id: string;
   name: string;
@@ -73,7 +73,7 @@ export interface PolicyRule {
   description: string;
 }
 
-// 대시보드 통계 타입
+// Dashboard statistics type
 export interface DashboardStats {
   totalFiles: number;
   threatsBlocked: number;

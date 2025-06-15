@@ -17,31 +17,29 @@ import {
   useNavigate,
 } from 'react-router-dom';
 
-// CSS 임포트
+// CSS imports
 import '@mantine/charts/styles.css';
 import '@mantine/core/styles.css';
 import '@mantine/dates/styles.css';
 import '@mantine/dropzone/styles.css';
 import '@mantine/notifications/styles.css';
 
-// 페이지 컴포넌트들 임포트
+// Page component imports
 import { DashboardPage } from './pages/dashboard/DashboardPage';
 import { EventsPage } from './pages/events/EventsPage';
 import { FilesPage } from './pages/files/FilesPage';
 import { PoliciesPage } from './pages/policies/PoliciesPage';
 
-// 네비게이션 컴포넌트
+// Navigation component
 const Navigation: React.FC = () => {
   const navigate = useNavigate();
   const location = useLocation();
 
   const menuItems = [
-    { path: '/', label: '📊 대시보드', key: 'dashboard' },
-    { path: '/files', label: '📁 파일 관리', key: 'files' },
-    { path: '/policies', label: '🔒 보안 정책', key: 'policies' },
-    { path: '/events', label: '⚠️ 보안 이벤트', key: 'events' },
-    { path: '/reports', label: '📈 리포트', key: 'reports' },
-    { path: '/settings', label: '⚙️ 설정', key: 'settings' },
+    { path: '/', label: '📊 Dashboard', key: 'dashboard' },
+    { path: '/files', label: '📁 File Management', key: 'files' },
+    { path: '/policies', label: '🔒 Security Policies', key: 'policies' },
+    { path: '/events', label: '⚠️ Security Events', key: 'events' },
   ];
 
   const isActive = (path: string) => {
@@ -54,7 +52,7 @@ const Navigation: React.FC = () => {
   return (
     <Stack gap="xs">
       <Text fw={600} size="sm" c="dimmed" mb="sm">
-        보안 관리
+        Security Management
       </Text>
 
       {menuItems.map((item) => (
@@ -75,7 +73,7 @@ const Navigation: React.FC = () => {
   );
 };
 
-// 메인 레이아웃 컴포넌트
+// Main layout component
 const MainLayout: React.FC = () => {
   const [navbarCollapsed, setNavbarCollapsed] = useState(false);
 
@@ -89,7 +87,7 @@ const MainLayout: React.FC = () => {
       }}
       padding="lg"
     >
-      {/* 상단 헤더 */}
+      {/* Top header */}
       <AppShell.Header>
         <Group h="100%" px="lg" justify="space-between">
           <Group>
@@ -109,12 +107,12 @@ const MainLayout: React.FC = () => {
         </Group>
       </AppShell.Header>
 
-      {/* 왼쪽 네비게이션 */}
+      {/* Left navigation */}
       <AppShell.Navbar p="md">
         <Navigation />
       </AppShell.Navbar>
 
-      {/* 메인 콘텐츠 영역 */}
+      {/* Main content area */}
       <AppShell.Main>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
@@ -128,7 +126,7 @@ const MainLayout: React.FC = () => {
   );
 };
 
-// 임시 플레이스홀더 페이지 (나중에 실제 페이지로 교체)
+// Temporary placeholder page (to be replaced with actual pages later)
 const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => {
   return (
     <div style={{ padding: '20px' }}>
@@ -136,7 +134,7 @@ const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => {
         {title}
       </Text>
       <Text c="dimmed" mb="lg">
-        이 페이지는 현재 개발 중입니다.
+        This page is currently under development.
       </Text>
       <div
         style={{
@@ -151,14 +149,14 @@ const PlaceholderPage: React.FC<{ title: string }> = ({ title }) => {
           🚧 Coming Soon
         </Text>
         <Text size="sm" c="dimmed" mt="xs">
-          {title} 기능을 구현할 예정입니다
+          {title} functionality will be implemented soon
         </Text>
       </div>
     </div>
   );
 };
 
-// 404 페이지
+// 404 page
 const NotFoundPage: React.FC = () => {
   const navigate = useNavigate();
 
@@ -170,35 +168,35 @@ const NotFoundPage: React.FC = () => {
       }}
     >
       <Text size="xl" fw={700} mb="md">
-        404 - 페이지를 찾을 수 없습니다
+        404 - Page Not Found
       </Text>
       <Text c="dimmed" mb="lg">
-        요청하신 페이지가 존재하지 않습니다.
+        The requested page does not exist.
       </Text>
-      <Button onClick={() => navigate('/')}>대시보드로 돌아가기</Button>
+      <Button onClick={() => navigate('/')}>Return to Dashboard</Button>
     </div>
   );
 };
 
-// 메인 App 컴포넌트
+// Main App component
 function App() {
   return (
     <MantineProvider
       theme={{
         primaryColor: 'blue',
         colors: {
-          // CASB 보안 테마 컬러 정의
+          // CASB security theme color definitions
           security: [
-            '#f0f9ff', // 가장 연한색
+            '#f0f9ff', // Lightest
             '#e0f2fe',
             '#bae6fd',
             '#7dd3fc',
             '#38bdf8',
-            '#0ea5e9', // 기본색
+            '#0ea5e9', // Base color
             '#0284c7',
             '#0369a1',
             '#075985',
-            '#0c4a6e', // 가장 진한색
+            '#0c4a6e', // Darkest
           ],
           danger: [
             '#fef2f2',
@@ -206,7 +204,7 @@ function App() {
             '#fecaca',
             '#fca5a5',
             '#f87171',
-            '#ef4444', // 기본 빨간색
+            '#ef4444', // Base red
             '#dc2626',
             '#b91c1c',
             '#991b1b',

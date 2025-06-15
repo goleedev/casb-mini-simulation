@@ -59,7 +59,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
                 {Math.abs(diff)}%
               </Text>
               <Text c="dimmed" fz="sm">
-                vs 지난주
+                vs last week
               </Text>
             </Group>
           )}
@@ -85,7 +85,7 @@ export const StatsCard: React.FC<StatsCardProps> = ({
             radius="xl"
           />
           <Text size="xs" c="dimmed">
-            {progress}% 대비 작년 동기
+            {progress}% vs last year
           </Text>
         </Stack>
       )}

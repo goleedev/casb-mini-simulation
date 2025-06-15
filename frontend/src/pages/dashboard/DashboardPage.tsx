@@ -16,88 +16,88 @@ export const DashboardPage: React.FC = () => {
   return (
     <Container size="xl" py="md">
       <Stack gap="lg">
-        {/* 상단 통계 카드들 */}
+        {/* Top Statistics Cards */}
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 4 }} spacing="lg">
           <StatsCard
-            title="총 파일"
+            title="Total Files"
             value="1,247"
             diff={12.5}
             icon={<IconFile size={24} />}
             color="blue"
-            description="업로드된 전체 파일"
+            description="Total uploaded files"
             progress={85}
             progressColor="blue"
           />
 
           <StatsCard
-            title="차단된 위협"
+            title="Blocked Threats"
             value="28"
             diff={-15.2}
             icon={<IconBan size={24} />}
             color="red"
-            description="이번 주 차단 건수"
+            description="Blocked this week"
             progress={92}
             progressColor="red"
           />
 
           <StatsCard
-            title="활성 정책"
+            title="Active Policies"
             value="12"
             diff={0}
             icon={<IconShield size={24} />}
             color="green"
-            description="현재 적용 중인 정책"
+            description="Currently active policies"
             progress={100}
             progressColor="green"
           />
 
           <StatsCard
-            title="보안 점수"
+            title="Security Score"
             value="72/100"
             diff={8.1}
             icon={<IconAlertTriangle size={24} />}
             color="orange"
-            description="전체 보안 수준"
+            description="Overall security level"
             progress={72}
             progressColor="orange"
           />
         </SimpleGrid>
 
-        {/* 중간 섹션: 차트 및 분석 */}
+        {/* Middle Section: Charts and Analysis */}
         <RiskChart />
 
-        {/* 하단 섹션: 실시간 이벤트 */}
+        {/* Bottom Section: Real-time Events */}
         <SimpleGrid cols={{ base: 1, lg: 1 }} spacing="lg">
           <SecurityTimeline />
         </SimpleGrid>
 
-        {/* 추가 통계 카드들 */}
+        {/* Additional Statistics Cards */}
         <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
           <StatsCard
-            title="일일 업로드"
+            title="Daily Uploads"
             value="156"
             diff={23.1}
             icon={<IconCloudUpload size={24} />}
             color="cyan"
-            description="오늘 업로드된 파일"
+            description="Files uploaded today"
           />
 
           <StatsCard
-            title="활성 사용자"
+            title="Active Users"
             value="89"
             diff={5.3}
             icon={<IconUsers size={24} />}
             color="violet"
-            description="최근 24시간 활성 사용자"
+            description="Active users in last 24h"
           />
 
           <StatsCard
-            title="평균 스캔 시간"
-            value="1.2초"
+            title="Avg Scan Time"
+            value="1.2s"
             diff={-12.8}
             icon={<IconAlertTriangle size={24} />}
             color="lime"
-            description="파일당 평균 스캔 시간"
+            description="Average scan time per file"
           />
         </SimpleGrid>
       </Stack>

@@ -7,14 +7,14 @@ import { promises as fs } from 'fs';
 
 const router = express.Router();
 
-// Multer 설정 (메모리 저장)
+// Multer configuration (memory storage)
 const upload = multer({
   storage: multer.memoryStorage(),
   limits: {
-    fileSize: 200 * 1024 * 1024, // 200MB (스캔 후 실제 제한 적용)
+    fileSize: 200 * 1024 * 1024, // 200MB (actual limit applied after scanning)
   },
   fileFilter: (req, file, cb) => {
-    // 기본적인 파일 필터링 (실제 보안 검사는 스캔에서)
+    // Basic file filtering (actual security checks in scanner)
     console.log(
       `📁 File upload initiated: ${file.originalname} (${file.mimetype})`
     );
@@ -22,23 +22,23 @@ const upload = multer({
   },
 });
 
-// 파일 업로드 엔드포인트
+// File upload endpoint
 router.post('/upload', upload.single('file'), async (req, res) => {
   try {
     if (!req.file) {
       res.status(400).json({
         success: false,
-        message: '파일이 업로드되지 않았습니다.',
+        message: 'No file was uploaded.',
       });
       return;
     }
 
     const { originalname, buffer, mimetype, size } = req.file;
-    const userId = req.body.userId || 'demo-user'; // 실제로는 인증에서 가져옴
+    const userId = req.body.userId || 'demo-user'; // In production, get from authentication
 
     console.log(`🔍 Processing file upload: ${originalname} (${size} bytes)`);
 
-    // 1. 보안 스캔 실행
+    // 1. Execute security scan
     const scanReport = await FileSecurityScanner.scanFile(
       originalname,
       buffer,
@@ -48,29 +48,30 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     if (scanReport.overallRisk === 'blocked') {
       console.log(`🚫 File blocked: ${originalname}`);
 
-      // 보안 이벤트 로그 생성 (실제로는 DB에 저장)
+      // Generate security event log (in production, save to DB)
       const securityEvent = {
         id: uuidv4(),
         timestamp: new Date(),
         type: 'file_upload_blocked',
         severity: 'high',
         userId,
-        description: `파일 업로드 차단: ${originalname}`,
+        description: `File upload blocked: ${originalname}`,
         details: scanReport,
       };
 
       res.status(403).json({
         success: false,
-        message: '보안 정책에 의해 파일 업로드가 차단되었습니다.',
+        message: 'File upload blocked by security policy.',
         scanReport,
         securityEvent,
       });
       return;
     }
+
     if (scanReport.overallRisk === 'quarantined') {
       console.log(`🔒 File quarantined: ${originalname}`);
 
-      // 격리 폴더에 저장 (실제로는 별도 격리 시스템)
+      // Save to quarantine folder (in production, use separate quarantine system)
       const quarantineDir = path.join(__dirname, '../../quarantine');
       await fs.mkdir(quarantineDir, { recursive: true });
 
@@ -79,14 +80,14 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
       res.status(202).json({
         success: false,
-        message: '파일이 격리되었습니다. 관리자 검토가 필요합니다.',
+        message: 'File has been quarantined. Administrator review required.',
         scanReport,
         quarantineId: quarantineFileName,
       });
       return;
     }
 
-    // 3. 안전한 파일 저장
+    // 3. Save safe file
     const uploadsDir = path.join(__dirname, '../../uploads');
     await fs.mkdir(uploadsDir, { recursive: true });
 
@@ -97,7 +98,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
 
     await fs.writeFile(filePath, buffer);
 
-    // 4. 파일 메타데이터 생성 (실제로는 DB에 저장)
+    // 4. Generate file metadata (in production, save to DB)
     const fileMetadata = {
       id: fileId,
       originalName: originalname,
@@ -116,7 +117,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
       `✅ File uploaded successfully: ${originalname} -> ${savedFileName}`
     );
 
-    // 5. 경고가 있는 경우 알림
+    // 5. Generate warning notification if needed
     if (scanReport.overallRisk === 'warning') {
       const warningEvent = {
         id: uuidv4(),
@@ -124,17 +125,17 @@ router.post('/upload', upload.single('file'), async (req, res) => {
         type: 'file_upload_warning',
         severity: 'medium',
         userId,
-        description: `파일 업로드 경고: ${originalname}`,
+        description: `File upload warning: ${originalname}`,
         details: scanReport,
       };
 
-      // 실제로는 알림 시스템으로 전송
+      // In production, send to notification system
       console.log(`⚠️ Warning event generated for: ${originalname}`);
     }
 
     res.json({
       success: true,
-      message: '파일이 성공적으로 업로드되었습니다.',
+      message: 'File uploaded successfully.',
       file: fileMetadata,
       scanReport,
     });
@@ -142,7 +143,7 @@ router.post('/upload', upload.single('file'), async (req, res) => {
     console.error('❌ File upload error:', error);
     res.status(500).json({
       success: false,
-      message: '파일 업로드 중 오류가 발생했습니다.',
+      message: 'An error occurred during file upload.',
       error:
         process.env.NODE_ENV === 'development' && error instanceof Error
           ? error.message
@@ -151,10 +152,10 @@ router.post('/upload', upload.single('file'), async (req, res) => {
   }
 });
 
-// 파일 목록 조회
+// Get file list
 router.get('/', async (req, res) => {
   try {
-    // 실제로는 DB에서 조회, 여기서는 Mock 데이터
+    // In production, query from database; here using mock data
     const files = [
       {
         id: '1',
@@ -184,7 +185,7 @@ router.get('/', async (req, res) => {
     console.error('❌ Error fetching files:', error);
     res.status(500).json({
       success: false,
-      message: '파일 목록을 가져오는 중 오류가 발생했습니다.',
+      message: 'An error occurred while fetching file list.',
     });
   }
 });

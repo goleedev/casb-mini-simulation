@@ -42,7 +42,7 @@ export const SecurityTimeline: React.FC = () => {
   const [events, setEvents] = useState<SecurityEvent[]>([]);
   const [loading, setLoading] = useState(false);
 
-  // Mock 데이터 생성
+  // Generate mock data
   useEffect(() => {
     generateMockEvents();
   }, []);
@@ -51,51 +51,52 @@ export const SecurityTimeline: React.FC = () => {
     const mockEvents: SecurityEvent[] = [
       {
         id: '1',
-        timestamp: new Date(Date.now() - 5 * 60 * 1000), // 5분 전
+        timestamp: new Date(Date.now() - 5 * 60 * 1000), // 5 minutes ago
         type: 'threat_detected',
         severity: 'critical',
         user: 'demo@company.com',
-        description: '악성코드 패턴이 포함된 파일 업로드 시도 차단',
+        description:
+          'Malware pattern detected in file upload attempt - blocked',
         resolved: true,
         details: { fileName: 'virus.exe', action: 'quarantine' },
       },
       {
         id: '2',
-        timestamp: new Date(Date.now() - 15 * 60 * 1000), // 15분 전
+        timestamp: new Date(Date.now() - 15 * 60 * 1000), // 15 minutes ago
         type: 'policy_violation',
         severity: 'high',
         user: 'user2@company.com',
-        description: '민감 정보 포함 파일 업로드 경고',
+        description: 'Sensitive information detected in file upload - warning',
         resolved: false,
         details: { fileName: 'customer_data.xlsx', violation: 'PII detected' },
       },
       {
         id: '3',
-        timestamp: new Date(Date.now() - 30 * 60 * 1000), // 30분 전
+        timestamp: new Date(Date.now() - 30 * 60 * 1000), // 30 minutes ago
         type: 'file_upload',
         severity: 'low',
         user: 'demo@company.com',
-        description: '안전한 파일 업로드 완료',
+        description: 'Safe file upload completed successfully',
         resolved: true,
         details: { fileName: 'report.pdf', scanResult: 'clean' },
       },
       {
         id: '4',
-        timestamp: new Date(Date.now() - 45 * 60 * 1000), // 45분 전
+        timestamp: new Date(Date.now() - 45 * 60 * 1000), // 45 minutes ago
         type: 'file_blocked',
         severity: 'medium',
         user: 'user3@company.com',
-        description: '허용되지 않은 파일 형식 업로드 차단',
+        description: 'Unauthorized file type upload blocked',
         resolved: true,
         details: { fileName: 'script.bat', reason: 'executable_blocked' },
       },
       {
         id: '5',
-        timestamp: new Date(Date.now() - 60 * 60 * 1000), // 1시간 전
+        timestamp: new Date(Date.now() - 60 * 60 * 1000), // 1 hour ago
         type: 'access_denied',
         severity: 'medium',
         user: 'external@other.com',
-        description: '외부 사용자 접근 차단',
+        description: 'External user access blocked',
         resolved: true,
         details: { source: 'external', reason: 'unauthorized_domain' },
       },
@@ -139,15 +140,15 @@ export const SecurityTimeline: React.FC = () => {
   const getTypeLabel = (type: string) => {
     switch (type) {
       case 'threat_detected':
-        return '위협 탐지';
+        return 'Threat Detected';
       case 'policy_violation':
-        return '정책 위반';
+        return 'Policy Violation';
       case 'file_upload':
-        return '파일 업로드';
+        return 'File Upload';
       case 'file_blocked':
-        return '파일 차단';
+        return 'File Blocked';
       case 'access_denied':
-        return '접근 거부';
+        return 'Access Denied';
       default:
         return type;
     }
@@ -159,10 +160,10 @@ export const SecurityTimeline: React.FC = () => {
       (now.getTime() - date.getTime()) / (1000 * 60)
     );
 
-    if (diffMinutes < 1) return '방금 전';
-    if (diffMinutes < 60) return `${diffMinutes}분 전`;
-    if (diffMinutes < 1440) return `${Math.floor(diffMinutes / 60)}시간 전`;
-    return date.toLocaleDateString('ko-KR');
+    if (diffMinutes < 1) return 'Just now';
+    if (diffMinutes < 60) return `${diffMinutes} minutes ago`;
+    if (diffMinutes < 1440) return `${Math.floor(diffMinutes / 60)} hours ago`;
+    return date.toLocaleDateString('en-US');
   };
 
   const refreshEvents = () => {
@@ -176,7 +177,7 @@ export const SecurityTimeline: React.FC = () => {
   return (
     <Paper shadow="sm" p="lg" radius="md" h="auto">
       <Group justify="space-between" mb="md">
-        <Title order={3}>🚨 실시간 보안 이벤트</Title>
+        <Title order={3}>🚨 Real-time Security Events</Title>
         <Button
           variant="light"
           leftSection={<IconRefresh size={16} />}
@@ -184,7 +185,7 @@ export const SecurityTimeline: React.FC = () => {
           loading={loading}
           size="sm"
         >
-          새로고침
+          Refresh
         </Button>
       </Group>
 
@@ -217,7 +218,7 @@ export const SecurityTimeline: React.FC = () => {
                     </Badge>
                     {event.resolved && (
                       <Badge size="xs" color="green" variant="light">
-                        해결됨
+                        Resolved
                       </Badge>
                     )}
                   </Group>
@@ -227,13 +228,13 @@ export const SecurityTimeline: React.FC = () => {
                 </Stack>
 
                 <Group gap="xs">
-                  <Tooltip label="상세 보기">
+                  <Tooltip label="View Details">
                     <ActionIcon variant="subtle" size="sm">
                       <IconEye size={14} />
                     </ActionIcon>
                   </Tooltip>
                   {event.resolved && (
-                    <Tooltip label="삭제">
+                    <Tooltip label="Delete">
                       <ActionIcon variant="subtle" color="red" size="sm">
                         <IconTrash size={14} />
                       </ActionIcon>
@@ -248,7 +249,7 @@ export const SecurityTimeline: React.FC = () => {
             </Text>
             {event.details && (
               <Text size="xs" c="dimmed" mt={2}>
-                파일: {event.details.fileName || 'N/A'}
+                File: {event.details.fileName || 'N/A'}
               </Text>
             )}
           </Timeline.Item>

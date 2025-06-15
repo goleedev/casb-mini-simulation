@@ -99,13 +99,13 @@ export const FileList: React.FC = () => {
   };
 
   const formatDate = (dateString: string) => {
-    return new Date(dateString).toLocaleString('ko-KR');
+    return new Date(dateString).toLocaleString('en-US');
   };
 
   if (loading) {
     return (
       <Paper shadow="sm" p="lg" radius="md">
-        <Text>파일 목록을 불러오는 중...</Text>
+        <Text>Loading file list...</Text>
       </Paper>
     );
   }
@@ -113,28 +113,28 @@ export const FileList: React.FC = () => {
   return (
     <Paper shadow="sm" p="lg" radius="md">
       <Group justify="space-between" mb="md">
-        <Title order={3}>📁 파일 관리</Title>
+        <Title order={3}>📁 File Management</Title>
         <Button variant="light" onClick={loadFiles}>
-          새로고침
+          Refresh
         </Button>
       </Group>
 
       {files.length === 0 ? (
         <Text c="dimmed" ta="center" py="xl">
-          업로드된 파일이 없습니다.
+          No uploaded files found.
         </Text>
       ) : (
         <Table.ScrollContainer minWidth={800}>
           <Table striped highlightOnHover>
             <Table.Thead>
               <Table.Tr>
-                <Table.Th>파일명</Table.Th>
-                <Table.Th>크기</Table.Th>
-                <Table.Th>업로드일</Table.Th>
-                <Table.Th>업로드자</Table.Th>
-                <Table.Th>위험도</Table.Th>
-                <Table.Th>상태</Table.Th>
-                <Table.Th>작업</Table.Th>
+                <Table.Th>File Name</Table.Th>
+                <Table.Th>Size</Table.Th>
+                <Table.Th>Upload Date</Table.Th>
+                <Table.Th>Uploaded By</Table.Th>
+                <Table.Th>Risk Score</Table.Th>
+                <Table.Th>Status</Table.Th>
+                <Table.Th>Actions</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -176,21 +176,21 @@ export const FileList: React.FC = () => {
                   </Table.Td>
                   <Table.Td>
                     <Group gap="xs">
-                      <Tooltip label="미리보기">
+                      <Tooltip label="Preview">
                         <ActionIcon variant="subtle" color="blue">
                           <IconEye size={16} />
                         </ActionIcon>
                       </Tooltip>
 
                       {file.status === 'safe' && (
-                        <Tooltip label="다운로드">
+                        <Tooltip label="Download">
                           <ActionIcon variant="subtle" color="green">
                             <IconDownload size={16} />
                           </ActionIcon>
                         </Tooltip>
                       )}
 
-                      <Tooltip label="삭제">
+                      <Tooltip label="Delete">
                         <ActionIcon variant="subtle" color="red">
                           <IconTrash size={16} />
                         </ActionIcon>

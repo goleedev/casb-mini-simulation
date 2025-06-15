@@ -11,15 +11,15 @@ import {
 import React from 'react';
 
 export const RiskChart: React.FC = () => {
-  // Mock 데이터
+  // Mock data
   const weeklyThreatData = [
-    { date: '월', threats: 12, blocked: 10, warnings: 8 },
-    { date: '화', threats: 8, blocked: 6, warnings: 12 },
-    { date: '수', threats: 15, blocked: 13, warnings: 6 },
-    { date: '목', threats: 22, blocked: 18, warnings: 15 },
-    { date: '금', threats: 18, blocked: 15, warnings: 9 },
-    { date: '토', threats: 5, blocked: 4, warnings: 2 },
-    { date: '일', threats: 3, blocked: 2, warnings: 1 },
+    { date: 'Mon', threats: 12, blocked: 10, warnings: 8 },
+    { date: 'Tue', threats: 8, blocked: 6, warnings: 12 },
+    { date: 'Wed', threats: 15, blocked: 13, warnings: 6 },
+    { date: 'Thu', threats: 22, blocked: 18, warnings: 15 },
+    { date: 'Fri', threats: 18, blocked: 15, warnings: 9 },
+    { date: 'Sat', threats: 5, blocked: 4, warnings: 2 },
+    { date: 'Sun', threats: 3, blocked: 2, warnings: 1 },
   ];
 
   const fileTypeDistribution = [
@@ -41,19 +41,19 @@ export const RiskChart: React.FC = () => {
 
   return (
     <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-      {/* 주간 위협 트렌드 */}
+      {/* Weekly Threat Trends */}
       <Paper shadow="sm" p="lg" radius="md">
         <Title order={4} mb="md">
-          📈 주간 위협 트렌드
+          📈 Weekly Threat Trends
         </Title>
         <AreaChart
           h={250}
           data={weeklyThreatData}
           dataKey="date"
           series={[
-            { name: 'threats', label: '탐지된 위협', color: 'red.6' },
-            { name: 'blocked', label: '차단된 위협', color: 'orange.6' },
-            { name: 'warnings', label: '경고', color: 'yellow.6' },
+            { name: 'threats', label: 'Detected Threats', color: 'red.6' },
+            { name: 'blocked', label: 'Blocked Threats', color: 'orange.6' },
+            { name: 'warnings', label: 'Warnings', color: 'yellow.6' },
           ]}
           curveType="linear"
           withLegend
@@ -63,24 +63,24 @@ export const RiskChart: React.FC = () => {
         />
       </Paper>
 
-      {/* 파일 타입 분포 */}
+      {/* File Type Distribution */}
       <Paper shadow="sm" p="lg" radius="md">
         <Title order={4} mb="md">
-          📊 파일 타입 분포
+          📊 File Type Distribution
         </Title>
         <DonutChart
           h={250}
           data={fileTypeDistribution}
-          chartLabel="파일 타입"
+          chartLabel="File Types"
           withLabelsLine
           withLabels
         />
       </Paper>
 
-      {/* 전체 위험도 */}
+      {/* Overall Risk Score */}
       <Paper shadow="sm" p="lg" radius="md">
         <Title order={4} mb="md">
-          🎯 전체 위험도
+          🎯 Overall Risk Score
         </Title>
         <Group justify="center" mb="md">
           <RingProgress
@@ -105,14 +105,14 @@ export const RiskChart: React.FC = () => {
           />
         </Group>
         <Text ta="center" c="dimmed" size="sm">
-          현재 보안 위험도 수준
+          Current security risk level
         </Text>
       </Paper>
 
-      {/* 위험도 레벨 분포 */}
+      {/* Risk Level Distribution */}
       <Paper shadow="sm" p="lg" radius="md">
         <Title order={4} mb="md">
-          ⚠️ 위험도 레벨 분포
+          ⚠️ Risk Level Distribution
         </Title>
         <Stack gap="md">
           {riskLevels.map((level) => (
