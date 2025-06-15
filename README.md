@@ -1,5 +1,11 @@
 # 🛡️ Cloudflare Zero Trust CASB Simulation Project
 
+![Dashboard Image](./images/1.png)
+![Dashboard Image](./images/2.png)
+![Dashboard Image](./images/3.png)
+![Dashboard Image](./images/4.png)
+![Dashboard Image](./images/5.png)
+
 > A comprehensive educational project simulating Microsoft 365 environment to learn core functionalities of Cloudflare Zero Trust CASB
 
 ![CASB Dashboard Preview](https://img.shields.io/badge/Status-Complete-green)
